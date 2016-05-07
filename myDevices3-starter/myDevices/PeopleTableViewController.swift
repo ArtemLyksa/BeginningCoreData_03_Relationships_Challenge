@@ -88,8 +88,46 @@ class PeopleTableViewController: UITableViewController {
       pickerDelegate.didSelectPerson(person)
 
       tableView.reloadData()
+    } else {
+        if let deviceTableViewController = storyboard?.instantiateViewControllerWithIdentifier("Devices") as? DevicesTableViewController {
+            let person = people[indexPath.row]
+            deviceTableViewController.managedObjectContext = managedObjectContext
+            deviceTableViewController.selectedPerson = person
+            navigationController?.pushViewController(deviceTableViewController, animated: true)
+        }
     }
 
     tableView.deselectRowAtIndexPath(indexPath, animated: true)
   }
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

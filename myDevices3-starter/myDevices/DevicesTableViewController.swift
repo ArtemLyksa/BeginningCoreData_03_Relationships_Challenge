@@ -48,16 +48,24 @@ class DevicesTableViewController: UITableViewController {
   }
 
   func reloadData() {
-    let fetchRequest = NSFetchRequest(entityName: "Device")
-
-    do {
-      if let results = try managedObjectContext.executeFetchRequest(fetchRequest) as? [Device] {
-        devices = results
-      }
-    } catch {
-      fatalError("There was an error fetching the list of devices!")
+    
+    if let selectedPerson = selectedPerson {
+        if let personDevices = selectedPerson.devices.allObjects as? [Device] {
+            devices = personDevices
+        }
+    } else {
+        
+        let fetchRequest = NSFetchRequest(entityName: "Device")
+        
+        do {
+            if let results = try managedObjectContext.executeFetchRequest(fetchRequest) as? [Device] {
+                devices = results
+            }
+        } catch {
+            fatalError("There was an error fetching the list of devices!")
+        }
     }
-  }
+}
 
   // MARK: - Table view data source
 

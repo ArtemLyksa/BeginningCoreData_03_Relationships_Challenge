@@ -36,7 +36,7 @@ class DevicesTableViewController: UITableViewController {
       title = "\(selectedPerson.name)'s Devices"
     } else {
       title = "Devices"
-      navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .Add, target: self, action: "addDevice:")
+      navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .Add, target: self, action: #selector(DevicesTableViewController.addDevice(_:)))
     }
   }
 
@@ -48,14 +48,23 @@ class DevicesTableViewController: UITableViewController {
   }
 
   func reloadData() {
-    let fetchRequest = NSFetchRequest(entityName: "Device")
+    
+    if let selectedPerson = selectedPerson {
+        if let personDevices = selectedPerson.devices.allObjects as? [Device] {
+            devices = personDevices
+        }
+        
+    } else {
+    
+        let fetchRequest = NSFetchRequest(entityName: "Device")
 
-    do {
-      if let results = try managedObjectContext.executeFetchRequest(fetchRequest) as? [Device] {
-        devices = results
-      }
-    } catch {
-      fatalError("There was an error fetching the list of devices!")
+        do {
+          if let results = try managedObjectContext.executeFetchRequest(fetchRequest) as? [Device] {
+            devices = results
+          }
+        } catch {
+          fatalError("There was an error fetching the list of devices!")
+        }
     }
   }
 
